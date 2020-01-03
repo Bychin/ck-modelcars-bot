@@ -16,10 +16,8 @@ MODELS_AMOUNT = 20  # CK allows to order up to 18 same models
 # 58697 - Matra MS80
 
 def get_amount(model_id):
-    soup = BeautifulSoup()
-
     with requests.get(CK_ADD_TO_CART_URL, params={'produkt': model_id, 'menge': MODELS_AMOUNT}) as r:
-        soup = BeautifulSoup(r.text)
+        soup = BeautifulSoup(r.text, "lxml")
 
     el = soup.find('input', {'name': 'menge_'+str(model_id)})
     if el is None:
