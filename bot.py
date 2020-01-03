@@ -1,8 +1,9 @@
 from telegram.ext import Updater, CommandHandler
 
 from model_parser import get_amount
+from utils.cfg import get_param
 
-BOT_TOKEN = '1009278594:AAHsRiNo9n0gFWugQH2fcJog7mKHoF98iMQ'
+BOT_TOKEN = get_param('bot_token')
 
 def hello(update, context):
     update.message.reply_text(
