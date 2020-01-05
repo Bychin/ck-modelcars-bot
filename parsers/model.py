@@ -13,3 +13,4 @@ def get_amount(model_id):
         return 0
 
     return el.get('value')
+
