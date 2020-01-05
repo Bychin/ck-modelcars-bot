@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-from constants import CK_ADD_TO_CART_API, MODELS_LIMIT
+from .constants import CK_ADD_TO_CART_API, MODELS_LIMIT
 
 
 def get_amount(model_id):

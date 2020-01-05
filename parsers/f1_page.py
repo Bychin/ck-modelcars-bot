@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import requests
 
-from constants import CK_F1_URL
+from .constants import CK_F1_URL
 
 
 def get_models_id():
