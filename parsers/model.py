@@ -56,7 +56,7 @@ class Model():
         text = '<a href="{}">{}</a> | {} | {}'.format(
             self.url, self.full_name, available_sign, self.price)
 
-        return text
+        return image + text
 
     def available_amount(self):
         with requests.get(CK_ADD_TO_CART_API, params={'produkt': self.id, 'menge': MODELS_LIMIT}) as r:

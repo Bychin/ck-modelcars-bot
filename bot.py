@@ -17,11 +17,16 @@ F1_listing = new_F1_listing()
 
 #  bot setup
 
-def check_model(update, context):
+def check_availability_for_model(update, context):
+    if len(context.args) == 0:
+        update.message.reply_text(
+            'Please pass an URL for a model after the command.')
+
     model_url = context.args[0]
     model = Model.from_url(model_url)
+
     update.message.reply_text(
-        'Amount for {}: {}'.format(model.id, model.available_amount()))
+        'Available to order amount: {}'.format(model.available_amount()))
 
 def update_new_listings(context):
     chat_id = context.job.context
@@ -57,7 +62,7 @@ def unsubscribe_from_new_listings(update, context):
 
 
 updater = Updater(BOT_TOKEN, use_context=True)
-updater.dispatcher.add_handler(CommandHandler('check', check_model))
+updater.dispatcher.add_handler(CommandHandler('check', check_availability_for_model))
 updater.dispatcher.add_handler(
     CommandHandler('subscribe', subscribe_for_new_listings))
 updater.dispatcher.add_handler(
