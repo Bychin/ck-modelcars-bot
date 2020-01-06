@@ -1,7 +1,6 @@
 CK_URL = 'https://ck-modelcars.de/en/'
 
 CK_CART_URL = CK_URL+'w'  # shop's cart
-CK_F1_URL = CK_URL+'l/t-gesamt/k-formel1'  # first page of F1 items listing
 
 '''
 API that adds item into shop's cart

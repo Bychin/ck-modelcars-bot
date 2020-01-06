@@ -1,3 +1,4 @@
+import re
 from string import Template
 
 from bs4 import BeautifulSoup
@@ -7,6 +8,7 @@ from .constants import CK_URL, CK_ADD_TO_CART_API, MODELS_LIMIT
 
 
 URL_TEMPLATE = Template(CK_URL+'p-$id/')
+URL_REGEX = re.compile(r'.*/p-(\d+)/')
 
 
 class Model():
@@ -16,6 +18,14 @@ class Model():
 
         if parse:
             self.parse_info()
+
+    @classmethod
+    def from_url(cls, model_url, parse=False):
+        m = URL_REGEX.match(model_url)
+        if m is None:
+            return None
+
+        return cls(m.group(1), parse)
 
     def parse_info(self):
         with requests.get(self.url) as r:
@@ -34,6 +44,19 @@ class Model():
 
         self.full_name = full_name
         self.img_urls = img_urls
+
+        available = soup.find('span', {'itemprop': 'availability'}).get('content')
+        self.available = True if available == 'InStock' else False
+
+        self.price = soup.find(class_='div_preis').find('span').text
+
+    def str_html(self):
+        available_sign = '✅' if self.available else '❌'
+        image = '<a href="{}">&#8204;</a>'.format(self.img_urls[0])
+        text = '<a href="{}">{}</a> | {} | {}'.format(
+            self.url, self.full_name, available_sign, self.price)
+
+        return text
 
     def available_amount(self):
         with requests.get(CK_ADD_TO_CART_API, params={'produkt': self.id, 'menge': MODELS_LIMIT}) as r:
